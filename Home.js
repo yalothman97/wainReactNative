@@ -1,18 +1,15 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { connect } from "react-redux";
 
-//Redux
-import { Provider } from "react-redux";
-import store from "./redux";
-import Home from "./Home";
-
-function App(props) {
-  console.log(props.restaurants);
-  return (
-    <Provider store={store}>
-      <Home />
-    </Provider>
-  );
+class Home extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Wain Nakel</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -26,4 +23,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   restaurants: state.restaurantsReducer.restaurants
 });
-export default App;
+export default connect(mapStateToProps)(Home);
