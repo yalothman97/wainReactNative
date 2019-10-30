@@ -9,7 +9,7 @@ const MyStackNav = createStackNavigator(
     Question1Screen: Question1
   },
   {
-    initialRouteName: "HomeScreen"
+    initialRouteName: "Question1Screen"
   }
 );
 
