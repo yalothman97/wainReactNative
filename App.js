@@ -1,16 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import AppContainer from "./Navigation/index";
 
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux";
-import Home from "./Home";
 
 function App(props) {
   console.log(props.restaurants);
   return (
     <Provider store={store}>
-      <Home />
+      <AppContainer />
     </Provider>
   );
 }
@@ -22,8 +22,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   }
-});
-const mapStateToProps = state => ({
-  restaurants: state.restaurantsReducer.restaurants
 });
 export default App;
