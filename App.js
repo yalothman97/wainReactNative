@@ -1,13 +1,18 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-
-// react native addtional imports temp removed Text, View
-
-// StackNav
 import AppContainer from "./Navigation/index";
 
-export default function App() {
-  return <AppContainer />;
+//Redux
+import { Provider } from "react-redux";
+import store from "./redux";
+
+function App(props) {
+  console.log(props.restaurants);
+  return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -18,3 +23,4 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+export default App;

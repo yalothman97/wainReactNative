@@ -62,23 +62,4 @@ const styles = StyleSheet.create({
   }
 });
 
-{
-  /* <Button large>
-              <Text>Start</Text>
-            </Button> */
-}
 
-{
-  /* <Container>
-        <Grid>
-          <Row></Row>
-          <Row>
-            <Content>
-              <Text>Wain</Text>
-              <View style={styles.circle} />
-            </Content>
-          </Row>
-          <Row></Row>
-        </Grid>
-      </Container> */
-}
