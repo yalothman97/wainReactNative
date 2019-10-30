@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import { Container, Header, Content, View, Button, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet } from "react-native";
+import { connect } from "react-redux";
 
-export default class Home extends Component {
+class Home extends Component {
   render() {
+    if (!this.props.loading && !this.props.tagsLoading) {
+      // console.log("restaurants", this.props.restaurants);
+      // console.log("tags", this.props.tags);
+    }
     return (
       <Container>
         <Grid>
@@ -44,7 +49,7 @@ export default class Home extends Component {
               </View>
             </Content>
           </Row>
-          <Row></Row>
+          <Row />
         </Grid>
       </Container>
     );
@@ -61,5 +66,10 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
-
-
+const mapStateToProps = state => ({
+  restaurants: state.restaurantsReducer.restaurants,
+  loading: state.restaurantsReducer.loading,
+  tagsLoading: state.tagsReducer.loading,
+  tags: state.tagsReducer.tags
+});
+export default connect(mapStateToProps)(Home);

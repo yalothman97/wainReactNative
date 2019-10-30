@@ -5,9 +5,11 @@ import AppContainer from "./Navigation/index";
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux";
+import { fetchRestaurants, fetchTags } from "./redux/actions";
+store.dispatch(fetchRestaurants());
+store.dispatch(fetchTags());
 
-function App(props) {
-  console.log(props.restaurants);
+function App() {
   return (
     <Provider store={store}>
       <AppContainer />

@@ -1,15 +1,15 @@
-import { FETCH_RESTAURANTS } from "../actions/actionTypes";
+import { FETCH_TAGS } from "../actions/actionTypes";
 const initialState = {
-  restaurants: [],
+  tags: [],
   loading: true
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case FETCH_RESTAURANTS:
+    case FETCH_TAGS:
       return {
         ...state,
-        restaurants: payload,
+        tags: payload,
         loading: false
       };
 
