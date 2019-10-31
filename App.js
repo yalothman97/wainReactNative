@@ -6,8 +6,21 @@ import { StyleSheet } from "react-native";
 // StackNav
 import AppContainer from "./Navigation/index";
 
-export default function App() {
-  return <AppContainer />;
+export default class App extends React.Component {
+  state = {
+    loading: true
+  };
+  async componentDidMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ loading: false });
+  }
+  render() {
+    if (!this.state.loading) return <AppContainer />;
+    else return <></>;
+  }
 }
 
 const styles = StyleSheet.create({

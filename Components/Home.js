@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Header, Content, View, Button, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default class Home extends Component {
   render() {
@@ -18,7 +18,6 @@ export default class Home extends Component {
           >
             <Text
               style={{
-                fontFamily: "Futura",
                 fontWeight: "800",
                 color: "#BC0000"
               }}
@@ -28,12 +27,17 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Content>
-              <View style={styles.circle}>
+              <TouchableOpacity
+                style={styles.circle}
+                onPress={() => {
+                  this.props.navigation.replace("Question1Screen");
+                }}
+              >
                 <Text
                   style={{
                     textAlign: "center",
                     flexDirection: "column",
-                    fontFamily: "Futura",
+
                     fontWeight: "800",
                     color: "white",
                     fontSize: 50
@@ -41,7 +45,7 @@ export default class Home extends Component {
                 >
                   Wain?
                 </Text>
-              </View>
+              </TouchableOpacity>
             </Content>
           </Row>
           <Row></Row>
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 200 / 2,
-    backgroundColor: "#BC0000",
+    backgroundColor: "#c92020",
     alignSelf: "center",
     justifyContent: "center"
   }
