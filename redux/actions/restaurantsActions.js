@@ -12,7 +12,7 @@ export const fetchRestaurants = () => {
         payload: restaurants
       });
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
     }
   };
 };

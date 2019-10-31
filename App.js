@@ -7,7 +7,6 @@ import { fetchRestaurants, fetchTags } from "./redux/actions";
 store.dispatch(fetchRestaurants());
 store.dispatch(fetchTags());
 
-
 export default class App extends React.Component {
   state = {
     loading: true
@@ -20,12 +19,15 @@ export default class App extends React.Component {
     this.setState({ loading: false });
   }
   render() {
-    if (!this.state.loading) return (<Provider store={store}>
-      <AppContainer />
-    </Provider>)
+    if (!this.state.loading)
+      return (
+        <Provider store={store}>
+          <AppContainer />
+        </Provider>
+      );
     else return <></>;
   }
-
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -35,4 +37,3 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
-export default App;
