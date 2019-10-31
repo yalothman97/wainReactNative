@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 class Question extends Component {
   static navigationOptions = props => {
     let tags = props.navigation.getParam("tags");
+    let socket = props.navigation.getParam("socket");
+
     return {
       headerRight: (
         <Button
@@ -17,14 +19,11 @@ class Question extends Component {
           }}
           onPress={() => {
             {
-              /* socket.emit("quiz_submit", {
-              tags: tags,
-
-              budget: 4
-            }); */
-            }
-            {
-              /* socket.emit("end"); */
+              socket.socket.emit("quiz_submit", {
+                id: socket.roomName,
+                tags: tags,
+                budgets: 4
+              });
             }
           }}
           transparent
@@ -46,6 +45,8 @@ class Question extends Component {
 
   componentDidMount = () => {
     // this.join();
+    console.log(this.props.socket);
+    this.props.navigation.setParams({ socket: this.props.socket });
   };
 
   submitAnswer() {
