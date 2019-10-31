@@ -12,7 +12,7 @@ export const fetchTags = () => {
         payload: tags
       });
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
     }
   };
 };

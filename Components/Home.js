@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { Container, Header, Content, View, Button, Text } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
-
-
+import { TextInput } from "react-native-gesture-handler";
+import { createRoom, joinRoom } from "../redux/actions";
 class Home extends Component {
+  state = {
+    roomName: null
+  };
   render() {
     if (!this.props.loading && !this.props.tagsLoading) {
       // console.log("restaurants", this.props.restaurants);
@@ -21,6 +24,7 @@ class Home extends Component {
               // horizontal
               alignSelf: "center"
             }}
+            size={20}
           >
             <Text
               style={{
@@ -31,11 +35,31 @@ class Home extends Component {
               Not sure where to eat?
             </Text>
           </Row>
-          <Row>
+          <Row size={80}>
             <Content>
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  width: Dimensions.get("window").width - 20,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  alignSelf: "center",
+                  marginBottom: 20
+                }}
+                placeholder="Enter room name"
+                onChangeText={text => this.setState({ roomName: text })}
+              />
+
               <TouchableOpacity
-                style={styles.circle}
+                disabled={!this.state.roomName && true}
+                style={
+                  !this.state.roomName ? styles.circleDisabled : styles.circle
+                }
                 onPress={() => {
+                  this.props.createRoom(this.state.roomName);
                   this.props.navigation.replace("Question1Screen");
                 }}
               >
@@ -49,12 +73,36 @@ class Home extends Component {
                     fontSize: 50
                   }}
                 >
-                  Wain?
+                  Create
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={!this.state.roomName && true}
+                style={
+                  !this.state.roomName
+                    ? styles.joinCircleDisabled
+                    : styles.joinCircle
+                }
+                onPress={() => {
+                  this.props.joinRoom(this.state.roomName);
+                  this.props.navigation.replace("Question1Screen");
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    flexDirection: "column",
+
+                    fontWeight: "800",
+                    color: "white",
+                    fontSize: 50
+                  }}
+                >
+                  Join
                 </Text>
               </TouchableOpacity>
             </Content>
           </Row>
-          <Row />
         </Grid>
       </Container>
     );
@@ -68,13 +116,51 @@ const styles = StyleSheet.create({
     borderRadius: 200 / 2,
     backgroundColor: "#c92020",
     alignSelf: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 20
+  },
+  circleDisabled: {
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
+    backgroundColor: "#a8a396",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginBottom: 20
+  },
+  joinCircle: {
+    width: 150,
+    height: 150,
+    borderRadius: 150 / 2,
+    backgroundColor: "#096931",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginBottom: 20
+  },
+  joinCircleDisabled: {
+    width: 150,
+    height: 150,
+    borderRadius: 150 / 2,
+    backgroundColor: "#a8a396",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginBottom: 20
   }
 });
+
 const mapStateToProps = state => ({
   restaurants: state.restaurantsReducer.restaurants,
   loading: state.restaurantsReducer.loading,
   tagsLoading: state.tagsReducer.loading,
   tags: state.tagsReducer.tags
 });
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => {
+  return {
+    createRoom: roomName => dispatch(createRoom(roomName)),
+    joinRoom: roomName => dispatch(joinRoom(roomName))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

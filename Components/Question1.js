@@ -4,9 +4,9 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, FlatList, TextInput, Dimensions } from "react-native";
 import socketIOClient from "socket.io-client";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { connect } from "react-redux";
 
-const socket = socketIOClient("http://192.168.100.232");
-class Home extends Component {
+class Question extends Component {
   static navigationOptions = props => {
     let tags = props.navigation.getParam("tags");
     return {
@@ -16,12 +16,16 @@ class Home extends Component {
             marginRight: 10
           }}
           onPress={() => {
-            socket.emit("quiz_submit", {
+            {
+              /* socket.emit("quiz_submit", {
               tags: tags,
 
               budget: 4
-            });
-            socket.emit("end");
+            }); */
+            }
+            {
+              /* socket.emit("end"); */
+            }
           }}
           transparent
         >
@@ -33,9 +37,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    // socket.connect();
-    console.log(socket);
-    socket.emit("channel1", "Hi server"); // emits 'hi server' to your server
+    // socket.emit("channel1", "Hi server"); // emits 'hi server' to your server
   }
   state = {
     tags: null,
@@ -43,31 +45,20 @@ class Home extends Component {
   };
 
   componentDidMount = () => {
-    this.join();
+    // this.join();
   };
 
-  join() {
-    socket.emit("join", {
-      id: "2",
-      name: "Naser"
-    });
-  }
-  sendShit() {
-    socket.emit("hi", {
-      id: "2"
-    });
-  }
   submitAnswer() {
-    console.log(this.refs.cats.value, this.refs.flavs.value);
-    socket.emit("quiz_submit", {
-      category: parseInt(this.refs.cats.value),
+    // console.log(this.refs.cats.value, this.refs.flavs.value);
+    this.props.socket.socket.emit("quiz_submit", {
+      tags: this.state.selectedTags,
 
       budget: 4
     });
   }
 
   render() {
-    socket.on("quiz", data => {
+    this.props.socket.socket.on("quiz", data => {
       !this.state.tags && this.setState({ tags: data.tags });
     });
 
@@ -114,7 +105,6 @@ class Home extends Component {
               Choose what you like
             </Text>
           </Row>
-
           <Row
             size={7}
             style={{
@@ -153,7 +143,6 @@ class Home extends Component {
                 style={{ marginTop: 15, marginRight: 15, marginLeft: 15 }}
               />
             )}
-
           </Row>
         </Grid>
       </Container>
@@ -193,8 +182,16 @@ const styles = StyleSheet.create({
     shadowRadius: 5.46,
 
     elevation: 9
-  },
-
+  }
 });
 
-export default Home;
+const mapStateToProps = state => ({
+  socket: state.socket
+});
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     createRoom: roomName => dispatch(createRoom(roomName)),
+//     joinRoom: roomName => dispatch(joinRoom(roomName))
+//   };
+// };
+export default connect(mapStateToProps)(Question);
