@@ -1,10 +1,12 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-
-// react native addtional imports temp removed Text, View
-
-// StackNav
 import AppContainer from "./Navigation/index";
+import { Provider } from "react-redux";
+import store from "./redux";
+import { fetchRestaurants, fetchTags } from "./redux/actions";
+store.dispatch(fetchRestaurants());
+store.dispatch(fetchTags());
+
 
 export default class App extends React.Component {
   state = {
@@ -18,10 +20,12 @@ export default class App extends React.Component {
     this.setState({ loading: false });
   }
   render() {
-    if (!this.state.loading) return <AppContainer />;
+    if (!this.state.loading) return (<Provider store={store}>
+      <AppContainer />
+    </Provider>)
     else return <></>;
   }
-}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,3 +35,4 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+export default App;

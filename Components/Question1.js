@@ -114,6 +114,7 @@ class Home extends Component {
               Choose what you like
             </Text>
           </Row>
+
           <Row
             size={7}
             style={{
@@ -152,6 +153,7 @@ class Home extends Component {
                 style={{ marginTop: 15, marginRight: 15, marginLeft: 15 }}
               />
             )}
+
           </Row>
         </Grid>
       </Container>
@@ -191,7 +193,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5.46,
 
     elevation: 9
-  }
+  },
+
 });
 
 export default Home;
