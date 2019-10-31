@@ -59,7 +59,7 @@ class Home extends Component {
                   !this.state.roomName ? styles.circleDisabled : styles.circle
                 }
                 onPress={() => {
-                  this.props.createRoom(this.state.roomName);
+                  this.props.joinRoom(this.state.roomName);
                   this.props.navigation.replace("Question1Screen");
                 }}
               >
