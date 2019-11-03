@@ -20,6 +20,7 @@ class Question extends Component {
             {
               socket.socket.emit("quiz_submit", {
                 id: socket.roomName,
+                name: "Naser",
                 tags: tags,
                 budgets: 4
               });
@@ -47,7 +48,7 @@ class Question extends Component {
 
   componentDidMount = () => {
     // this.join();
-    console.log(this.props.socket);
+
     this.props.navigation.setParams({ socket: this.props.socket });
   };
 
