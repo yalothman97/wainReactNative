@@ -4,7 +4,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, FlatList, TextInput, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
-
+import { setAdmin } from "../redux/actions";
 class Question extends Component {
   static navigationOptions = props => {
     let tags = props.navigation.getParam("tags");
@@ -62,6 +62,10 @@ class Question extends Component {
   }
 
   render() {
+    this.props.socket.socket.on("admin", data => {
+      console.log("I'm the admin");
+      this.props.setAdmin();
+    });
     this.props.socket.socket.on("quiz", data => {
       !this.state.tags && this.setState({ tags: data.tags });
     });
@@ -192,10 +196,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   socket: state.socket
 });
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     createRoom: roomName => dispatch(createRoom(roomName)),
-//     joinRoom: roomName => dispatch(joinRoom(roomName))
-//   };
-// };
-export default connect(mapStateToProps)(Question);
+const mapDispatchToProps = dispatch => {
+  return {
+    setAdmin: () => dispatch(setAdmin())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Question);
