@@ -6,6 +6,11 @@ import { connect } from "react-redux";
 import { TextInput } from "react-native-gesture-handler";
 import { createRoom, joinRoom } from "../redux/actions";
 class Home extends Component {
+  static navigationOptions = props => {
+    return {
+      header: null
+    };
+  };
   state = {
     roomName: null
   };
@@ -160,6 +165,7 @@ const mapDispatchToProps = dispatch => {
     joinRoom: roomName => dispatch(joinRoom(roomName))
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
