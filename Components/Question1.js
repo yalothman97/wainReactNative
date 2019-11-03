@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Container, Header, Content, View, Text, Button } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, FlatList, TextInput, Dimensions } from "react-native";
-import socketIOClient from "socket.io-client";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 
@@ -24,6 +23,8 @@ class Question extends Component {
                 tags: tags,
                 budgets: 4
               });
+
+              props.navigation.replace("WaitingScreen");
             }
           }}
           transparent
@@ -40,7 +41,8 @@ class Question extends Component {
   }
   state = {
     tags: null,
-    selectedTags: []
+    selectedTags: [],
+    participants: 0
   };
 
   componentDidMount = () => {
