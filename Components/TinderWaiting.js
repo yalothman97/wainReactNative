@@ -25,23 +25,24 @@ export class Waiting extends Component {
   };
   state = {
     participants: [],
-    submitted: 0,
     showContinueButton: false
   };
 
   render() {
-    this.props.socket.socket.on("participantsSubmitted", data => {
-      this.setState({ submitted: data.participants });
-    });
     this.props.socket.socket.on("participantsChanged", data => {
       this.setState({ participants: data.participants });
     });
-    this.props.socket.socket.on("start_swipping", () => {
+    this.props.socket.socket.on("give_result", () => {
       if (!this.props.socket.admin)
-        this.props.navigation.replace("TinderScreen");
+        this.props.navigation.replace("FinalScreen");
     });
+
+    // this.props.socket.socket.on("start_swipping", () => {
+    //   if (!this.props.socket.admin)
+    //     this.props.navigation.replace("TinderScreen");
+    // });
     const checkingIfDone = this.state.participants.filter(
-      par => par.finished == false
+      par => par.tinderSubmitted == false
     );
     if (
       checkingIfDone.length == 0 &&
@@ -166,7 +167,7 @@ export class Waiting extends Component {
               <FlatList
                 data={this.state.participants}
                 renderItem={({ item }) => (
-                  <Item name={item.name} finished={item.finished} />
+                  <Item name={item.name} finished={item.tinderSubmitted} />
                 )}
                 keyExtractor={item => item.id}
                 contentContainerStyle={{
@@ -189,11 +190,11 @@ export class Waiting extends Component {
               justifyContent: "center"
             }}
             onPress={() => {
-              this.props.socket.socket.emit("end", {
+              this.props.socket.socket.emit("endTinder", {
                 id: this.props.socket.roomName
               });
               if (this.props.socket.admin)
-                this.props.navigation.replace("TinderScreen");
+                this.props.navigation.replace("FinalScreen");
             }}
           >
             <Icon
@@ -219,28 +220,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Waiting);
-
-/*
-
-
-   <AnimatedCircularProgress
-                size={240}
-                width={15}
-                fill={(this.state.submitted / this.state.participants) * 100}
-                tintColor="#d92121"
-                onAnimationComplete={() => console.log("onAnimationComplete")}
-                backgroundColor="#661111"
-                style={{
-                  // vertical
-                  alignItems: "center",
-                  // horizontal
-                  alignSelf: "center"
-                }}
-              >
-                {fill => (
-                  <Text
-                    style={{ fontSize: 40 }}
-                  >{`${this.state.submitted}/${this.state.participants}`}</Text>
-                )}
-              </AnimatedCircularProgress>
-*/
