@@ -36,13 +36,17 @@ export class Waiting extends Component {
     this.props.socket.socket.on("participantsChanged", data => {
       this.setState({ participants: data.participants });
     });
+    this.props.socket.socket.on("start_swipping", () => {
+      this.props.navigation.replace("TinderScreen");
+    });
     const checkingIfDone = this.state.participants.filter(
       par => par.finished == false
     );
     if (
       checkingIfDone.length == 0 &&
       this.state.showContinueButton == false &&
-      this.state.participants.length > 0
+      this.state.participants.length > 0 &&
+      this.props.socket.admin
     ) {
       this.setState({ showContinueButton: true });
     }
@@ -187,7 +191,6 @@ export class Waiting extends Component {
               this.props.socket.socket.emit("end", {
                 id: this.props.socket.roomName
               });
-              this.props.navigation.replace("TinderScreen");
             }}
           >
             <Icon
