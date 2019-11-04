@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Container, Header, Content, View, Text, Button } from "native-base";
+import { Container, Text, Button, Spinner } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, FlatList, TextInput, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { setAdmin } from "../redux/actions";
+
 class Question extends Component {
   static navigationOptions = props => {
     let tags = props.navigation.getParam("tags");
@@ -69,7 +70,19 @@ class Question extends Component {
     this.props.socket.socket.on("quiz", data => {
       !this.state.tags && this.setState({ tags: data.tags });
     });
-
+    if (!this.state.tags)
+      return (
+        <Spinner
+          color="red"
+          style={{
+            width: "30%",
+            height: "30%",
+            marginTop: "auto",
+            marginBottom: "auto",
+            alignSelf: "center"
+          }}
+        />
+      );
     const Item = ({ name, id }) => {
       return (
         <Col
