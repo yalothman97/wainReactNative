@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+import Modal from "react-native-modal";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import {
   Container,
@@ -12,7 +12,8 @@ import {
   Body,
   Text,
   Right,
-  Left
+  Left,
+  Button
 } from "native-base";
 import { Icon } from "react-native-elements";
 
@@ -23,9 +24,11 @@ export class Waiting extends Component {
     };
   };
   state = {
-    participants: 0,
-    submitted: 0
+    participants: [],
+    submitted: 0,
+    showContinueButton: false
   };
+
   render() {
     this.props.socket.socket.on("participantsSubmitted", data => {
       this.setState({ submitted: data.participants });
@@ -33,7 +36,16 @@ export class Waiting extends Component {
     this.props.socket.socket.on("participantsChanged", data => {
       this.setState({ participants: data.participants });
     });
-    console.log(this.state);
+    const checkingIfDone = this.state.participants.filter(
+      par => par.finished == false
+    );
+    if (
+      checkingIfDone.length == 0 &&
+      this.state.showContinueButton == false &&
+      this.state.participants.length > 0
+    ) {
+      this.setState({ showContinueButton: true });
+    }
     const Item = ({ name, finished }) => {
       return (
         <Card>
@@ -128,7 +140,7 @@ export class Waiting extends Component {
             <Col>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 16,
                   alignItems: "center",
                   // horizontal
                   alignSelf: "center"
@@ -160,6 +172,32 @@ export class Waiting extends Component {
             </Col>
           </Row>
         </Grid>
+        {this.state.showContinueButton && (
+          <Button
+            style={{
+              position: "absolute",
+              bottom: 30,
+              right: 30,
+              width: 80,
+              height: 80,
+              borderRadius: 40,
+              justifyContent: "center"
+            }}
+            onPress={() => {
+              this.props.socket.socket.emit("end", {
+                id: this.props.socket.roomName
+              });
+              this.props.navigation.replace("TinderScreen");
+            }}
+          >
+            <Icon
+              name="arrow-forward"
+              type="material"
+              color="white"
+              size={35}
+            />
+          </Button>
+        )}
       </Container>
     );
   }

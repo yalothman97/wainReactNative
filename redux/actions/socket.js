@@ -1,8 +1,8 @@
 import socketIOClient from "socket.io-client";
-import { CREATE_ROOM, JOIN_ROOM } from "./actionTypes";
+import { CREATE_ROOM, JOIN_ROOM, SET_ADMIN } from "./actionTypes";
 
 export const createRoom = roomName => {
-  const socket = socketIOClient("http://192.168.100.232");
+  const socket = socketIOClient("https://192.168.100.232");
   socket.emit("start", {
     id: roomName,
     name: "Naser"
@@ -26,5 +26,10 @@ export const joinRoom = roomName => {
     type: CREATE_ROOM,
     payload: socket,
     roomName: roomName
+  };
+};
+export const setAdmin = () => {
+  return {
+    type: SET_ADMIN
   };
 };
