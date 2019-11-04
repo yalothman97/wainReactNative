@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { connect } from "react-redux";
+import { withNavigation } from "react-navigation";
 class TinderCards extends Component {
   state = {
     liked: [],
@@ -21,11 +22,15 @@ class TinderCards extends Component {
   };
   render() {
     const cards = this.props.restaurants;
-    if (cards.length == this.state.liked.length + this.state.disliked.length)
+    if (cards.length == this.state.liked.length + this.state.disliked.length) {
       this.props.socket.socket.emit("tinder_submit", {
         id: this.props.socket.roomName,
-        liked: this.state.liked
+        liked: this.state.liked,
+        name: "Naser"
       });
+      this.props.navigation.replace("TinderWaitingScreen");
+    }
+
     if (!cards || !cards.length) return <Text>Loading</Text>;
     return (
       <Container style={{ marginLeft: 10, marginRight: 10, borderRadius: 20 }}>
@@ -152,7 +157,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TinderCards);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TinderCards)
+);
