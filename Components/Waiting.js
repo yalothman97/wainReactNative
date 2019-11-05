@@ -30,16 +30,6 @@ export class Waiting extends Component {
   };
 
   render() {
-    this.props.socket.socket.on("participantsSubmitted", data => {
-      this.setState({ submitted: data.participants });
-    });
-    this.props.socket.socket.on("participantsChanged", data => {
-      this.setState({ participants: data.participants });
-    });
-    this.props.socket.socket.on("start_swipping", () => {
-      if (!this.props.socket.admin)
-        this.props.navigation.replace("TinderScreen");
-    });
     const checkingIfDone = this.state.participants.filter(
       par => par.finished == false
     );
@@ -51,6 +41,19 @@ export class Waiting extends Component {
     ) {
       this.setState({ showContinueButton: true });
     }
+    this.props.socket.socket.on("participantsSubmitted", data => {
+      this.setState({ submitted: data.participants });
+    });
+    this.props.socket.socket.on("participantsChanged", data => {
+      this.setState({ participants: data.participants });
+    });
+    if (checkingIfDone.length > 0 && this.state.showContinueButton)
+      this.setState({ showContinueButton: false });
+    this.props.socket.socket.on("start_swipping", () => {
+      if (!this.props.socket.admin)
+        this.props.navigation.replace("TinderScreen");
+    });
+
     const Item = ({ name, finished }) => {
       return (
         <Card>

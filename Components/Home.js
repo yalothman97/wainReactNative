@@ -20,6 +20,7 @@ class Home extends Component {
       // console.log("restaurants", this.props.restaurants);
       // console.log("tags", this.props.tags);
     }
+
     return (
       <Container>
         <Grid>
@@ -35,7 +36,8 @@ class Home extends Component {
             <Text
               style={{
                 fontWeight: "800",
-                color: "#BC0000"
+                color: "#BC0000",
+                marginTop: 100
               }}
             >
               Not sure where to eat?
@@ -53,7 +55,8 @@ class Home extends Component {
                   paddingLeft: 10,
                   paddingRight: 10,
                   alignSelf: "center",
-                  marginBottom: 20
+                  marginBottom: 50,
+                  marginTop: 50
                 }}
                 placeholder="Enter your nickname"
                 onChangeText={text => this.setState({ nickname: text })}
@@ -82,6 +85,7 @@ class Home extends Component {
                 onPress={() => {
                   this.props.joinRoom(this.state.roomName, this.state.nickname);
                   this.props.setNickname(this.state.nickname);
+
                   this.props.navigation.replace("Question1Screen");
                 }}
               >
@@ -95,33 +99,7 @@ class Home extends Component {
                     fontSize: 50
                   }}
                 >
-                  Create
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                disabled={!this.state.roomName && true}
-                style={
-                  !this.state.roomName
-                    ? styles.joinCircleDisabled
-                    : styles.joinCircle
-                }
-                onPress={() => {
-                  this.props.joinRoom(this.state.roomName, this.state.nickname);
-                  this.props.setNickname(this.state.nickname);
-                  this.props.navigation.replace("Question1Screen");
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    flexDirection: "column",
-
-                    fontWeight: "800",
-                    color: "white",
-                    fontSize: 50
-                  }}
-                >
-                  Join
+                  Wain?
                 </Text>
               </TouchableOpacity>
             </Content>
@@ -140,7 +118,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#c92020",
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: 50
   },
   circleDisabled: {
     width: 200,
@@ -149,7 +128,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#a8a396",
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: 50
   },
   joinCircle: {
     width: 150,
@@ -175,7 +155,8 @@ const mapStateToProps = state => ({
   restaurants: state.restaurantsReducer.restaurants,
   loading: state.restaurantsReducer.loading,
   tagsLoading: state.tagsReducer.loading,
-  tags: state.tagsReducer.tags
+  tags: state.tagsReducer.tags,
+  socket: state.socket
 });
 const mapDispatchToProps = dispatch => {
   return {

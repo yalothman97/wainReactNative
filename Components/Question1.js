@@ -11,30 +11,33 @@ class Question extends Component {
     let tags = props.navigation.getParam("tags");
     let socket = props.navigation.getParam("socket");
     let name = props.navigation.getParam("name");
-    return {
-      headerRight: (
-        <Button
-          style={{
-            marginRight: 10
-          }}
-          onPress={() => {
-            {
-              socket.socket.emit("quiz_submit", {
-                id: socket.roomName,
-                name: name,
-                tags: tags,
-                budgets: 4
-              });
+    console.log(tags);
+    if (tags)
+      return {
+        headerRight: !tags.length ? null : (
+          <Button
+            style={{
+              marginRight: 10
+            }}
+            onPress={() => {
+              {
+                socket.socket.emit("quiz_submit", {
+                  id: socket.roomName,
+                  name: name,
+                  tags: tags,
+                  budgets: 4
+                });
 
-              props.navigation.replace("WaitingScreen");
-            }
-          }}
-          transparent
-        >
-          <Text style={{ color: "#c92020" }}>Done</Text>
-        </Button>
-      )
-    };
+                props.navigation.replace("WaitingScreen");
+              }
+            }}
+            transparent
+          >
+            <Text style={{ color: "#c92020" }}>Done</Text>
+          </Button>
+        )
+      };
+    else return null;
   };
   constructor(props) {
     super(props);
@@ -42,9 +45,10 @@ class Question extends Component {
     // socket.emit("channel1", "Hi server"); // emits 'hi server' to your server
   }
   state = {
-    tags: null,
+    tags: [],
     selectedTags: [],
-    participants: 0
+    participants: 0,
+    query: ""
   };
 
   componentDidMount = () => {
@@ -52,7 +56,8 @@ class Question extends Component {
 
     this.props.navigation.setParams({
       socket: this.props.socket,
-      name: this.props.socket.nickname
+      name: this.props.socket.nickname,
+      tags: []
     });
   };
 
@@ -64,16 +69,18 @@ class Question extends Component {
       budget: 4
     });
   }
-
+  handleQuery = e => {
+    this.setState({ query: e });
+  };
   render() {
     this.props.socket.socket.on("admin", data => {
       console.log("I'm the admin");
       this.props.setAdmin();
     });
     this.props.socket.socket.on("quiz", data => {
-      !this.state.tags && this.setState({ tags: data.tags });
+      !this.state.tags.length && this.setState({ tags: data.tags });
     });
-    if (!this.state.tags)
+    if (!this.state.tags.length)
       return (
         <Spinner
           color="red"
@@ -91,8 +98,14 @@ class Question extends Component {
         <Col
           onPress={() => {
             let newArray = this.state.selectedTags;
-            newArray.push(id);
-            this.props.navigation.setParams({ tags: this.state.selectedTags });
+            if (newArray.includes(id)) {
+              newArray = newArray.filter(x => x !== id);
+            } else newArray.push(id);
+
+            console.log("from button", newArray);
+            this.props.navigation.setParams({
+              tags: newArray
+            });
             this.setState({ selectedTags: newArray, [id]: !this.state[id] });
           }}
         >
@@ -149,12 +162,15 @@ class Question extends Component {
                 paddingRight: 10
               }}
               placeholder="Search for keywords"
+              onChangeText={this.handleQuery}
             />
           </Row>
           <Row size={88}>
             {this.state.tags && (
               <FlatList
-                data={this.state.tags}
+                data={this.state.tags.filter(tag =>
+                  tag.name.includes(this.state.query)
+                )}
                 renderItem={({ item }) => (
                   <Item name={item.name} id={item.id} />
                 )}
@@ -164,7 +180,12 @@ class Question extends Component {
                   flexGrow: 1,
                   justifyContent: "center"
                 }}
-                style={{ marginTop: 15, marginRight: 15, marginLeft: 15 }}
+                style={{
+                  marginTop: 15,
+                  marginRight: 15,
+                  marginLeft: 15,
+                  alignContent: "stretch"
+                }}
               />
             )}
           </Row>

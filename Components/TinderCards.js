@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { ImageBackground, StyleSheet, View, Dimensions } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Dimensions,
+  Image
+} from "react-native";
 import {
   Container,
   Header,
@@ -10,7 +16,8 @@ import {
   Text,
   Left,
   Body,
-  Icon
+  Icon,
+  Button
 } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { connect } from "react-redux";
@@ -18,7 +25,8 @@ import { withNavigation } from "react-navigation";
 class TinderCards extends Component {
   state = {
     liked: [],
-    disliked: []
+    disliked: [],
+    showInstructions: true
   };
   render() {
     const cards = this.props.restaurants;
@@ -39,13 +47,13 @@ class TinderCards extends Component {
             onSwipeLeft={e => {
               let newDisliked = this.state.disliked;
               newDisliked.push(e.id);
-              this.setState({ disliked: newDisliked });
+              this.setState({ disliked: newDisliked, showInstructions: false });
               console.log(this.state.disliked);
             }}
             onSwipeRight={e => {
               let newLiked = this.state.liked;
               newLiked.push(e.id);
-              this.setState({ liked: newLiked });
+              this.setState({ liked: newLiked, showInstructions: false });
               console.log(this.state.liked);
             }}
             looping={false}
@@ -88,30 +96,82 @@ class TinderCards extends Component {
                     resizeMode="contain"
                     source={{ uri: item.image }}
                   >
-                    <LinearGradient
-                      colors={[
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0)",
-                        "rgba(0, 0, 0,0.1)",
-                        "rgba(0, 0, 0,0.3)",
-                        "rgba(0, 0, 0,0.4)",
-                        "rgba(0, 0, 0,0.5)"
-                      ]}
-                      style={{
-                        height: Dimensions.get("window").height * 0.7,
-                        borderRadius: 20
-                      }}
-                    ></LinearGradient>
+                    {this.state.showInstructions ? (
+                      <LinearGradient
+                        colors={["rgba(0, 0, 0,0.4)", "rgba(0, 0, 0,0.5)"]}
+                        style={{
+                          height: Dimensions.get("window").height * 0.72,
+                          borderRadius: 20,
+                          zIndex: 5
+                        }}
+                      ></LinearGradient>
+                    ) : (
+                      <LinearGradient
+                        colors={[
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0)",
+                          "rgba(0, 0, 0,0.1)",
+                          "rgba(0, 0, 0,0.3)",
+                          "rgba(0, 0, 0,0.4)",
+                          "rgba(0, 0, 0,0.5)"
+                        ]}
+                        style={{
+                          height: Dimensions.get("window").height * 0.72,
+                          borderRadius: 20
+                        }}
+                      ></LinearGradient>
+                    )}
+                    {this.state.showInstructions ? (
+                      <>
+                        <Image
+                          source={require("../assets/right.png")}
+                          resizeMode="contain"
+                          style={{
+                            width: 140,
+                            height: 140,
+                            zIndex: 54654,
+                            position: "absolute",
+                            top: 50,
+                            alignSelf: "center"
+                          }}
+                        ></Image>
+                        <Image
+                          source={require("../assets/left.png")}
+                          resizeMode="contain"
+                          style={{
+                            width: 140,
+                            height: 140,
+                            zIndex: 54654,
+                            position: "absolute",
+                            top: 250,
+                            alignSelf: "center"
+                          }}
+                        ></Image>
+                        <Button
+                          style={{
+                            alignSelf: "center",
+                            position: "absolute",
+                            top: 450,
+                            zIndex: 6
+                          }}
+                          onPress={() =>
+                            this.setState({ showInstructions: false })
+                          }
+                        >
+                          <Text>Got it</Text>
+                        </Button>
+                      </>
+                    ) : null}
                     {/* <View
                       style={{
                         height: 600,

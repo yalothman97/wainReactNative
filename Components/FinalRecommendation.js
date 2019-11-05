@@ -5,6 +5,11 @@ import { connect } from "react-redux";
 import { Spinner } from "native-base";
 
 export class FinalRecommendation extends Component {
+  static navigationOptions = props => {
+    return {
+      header: null
+    };
+  };
   state = {
     restaurant: null
   };
@@ -29,12 +34,15 @@ export class FinalRecommendation extends Component {
       );
     else
       return (
-        <View>
+        <View style={{ marginTop: 50 }}>
           <Image
             style={{
               height: Dimensions.get("window").height * 0.53,
-              marginTop: 50
+              marginTop: 50,
+              marginRight: 10,
+              marginLeft: 10
             }}
+            resizeMode="contain"
             source={{ uri: this.state.restaurant.image }}
           ></Image>
           <Text style={{ fontSize: 40, alignSelf: "center", marginTop: 20 }}>
