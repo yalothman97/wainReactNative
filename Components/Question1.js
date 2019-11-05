@@ -10,7 +10,7 @@ class Question extends Component {
   static navigationOptions = props => {
     let tags = props.navigation.getParam("tags");
     let socket = props.navigation.getParam("socket");
-
+    let name = props.navigation.getParam("name");
     return {
       headerRight: (
         <Button
@@ -21,7 +21,7 @@ class Question extends Component {
             {
               socket.socket.emit("quiz_submit", {
                 id: socket.roomName,
-                name: "Naser",
+                name: name,
                 tags: tags,
                 budgets: 4
               });
@@ -50,7 +50,10 @@ class Question extends Component {
   componentDidMount = () => {
     // this.join();
 
-    this.props.navigation.setParams({ socket: this.props.socket });
+    this.props.navigation.setParams({
+      socket: this.props.socket,
+      name: this.props.socket.nickname
+    });
   };
 
   submitAnswer() {

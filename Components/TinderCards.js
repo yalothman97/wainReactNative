@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View, Dimensions } from "react-native";
 import {
   Container,
   Header,
@@ -26,7 +26,7 @@ class TinderCards extends Component {
       this.props.socket.socket.emit("tinder_submit", {
         id: this.props.socket.roomName,
         liked: this.state.liked,
-        name: "Naser"
+        name: this.props.socket.nickname
       });
       this.props.navigation.replace("TinderWaitingScreen");
     }
@@ -80,7 +80,11 @@ class TinderCards extends Component {
                     </View>
                   </Image> */}
                   <ImageBackground
-                    style={{ height: 600, flex: 1, borderRadius: 20 }}
+                    style={{
+                      height: Dimensions.get("window").height * 0.72,
+                      flex: 1,
+                      borderRadius: 20
+                    }}
                     resizeMode="contain"
                     source={{ uri: item.image }}
                   >
@@ -103,7 +107,10 @@ class TinderCards extends Component {
                         "rgba(0, 0, 0,0.4)",
                         "rgba(0, 0, 0,0.5)"
                       ]}
-                      style={{ height: 600, borderRadius: 20 }}
+                      style={{
+                        height: Dimensions.get("window").height * 0.7,
+                        borderRadius: 20
+                      }}
                     ></LinearGradient>
                     {/* <View
                       style={{

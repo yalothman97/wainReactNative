@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Spinner } from "native-base";
@@ -31,7 +31,10 @@ export class FinalRecommendation extends Component {
       return (
         <View>
           <Image
-            style={{ height: 450, marginTop: 50 }}
+            style={{
+              height: Dimensions.get("window").height * 0.53,
+              marginTop: 50
+            }}
             source={{ uri: this.state.restaurant.image }}
           ></Image>
           <Text style={{ fontSize: 40, alignSelf: "center", marginTop: 20 }}>

@@ -1,9 +1,15 @@
-import { CREATE_ROOM, JOIN_ROOM, SET_ADMIN } from "../actions/actionTypes";
+import {
+  CREATE_ROOM,
+  JOIN_ROOM,
+  SET_ADMIN,
+  SET_NICKNAME
+} from "../actions/actionTypes";
 
 const initialState = {
   socket: null,
   roomName: "",
-  admin: false
+  admin: false,
+  nickname: ""
 };
 
 export default (state = initialState, { type, payload, roomName }) => {
@@ -18,6 +24,11 @@ export default (state = initialState, { type, payload, roomName }) => {
       return {
         ...state,
         admin: true
+      };
+    case SET_NICKNAME:
+      return {
+        ...state,
+        nickname: payload
       };
     default:
       return state;

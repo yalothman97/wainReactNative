@@ -4,7 +4,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { TextInput } from "react-native-gesture-handler";
-import { createRoom, joinRoom } from "../redux/actions";
+import { createRoom, joinRoom, setNickname } from "../redux/actions";
 class Home extends Component {
   static navigationOptions = props => {
     return {
@@ -12,7 +12,8 @@ class Home extends Component {
     };
   };
   state = {
-    roomName: null
+    roomName: null,
+    nickname: ""
   };
   render() {
     if (!this.props.loading && !this.props.tagsLoading) {
@@ -54,6 +55,21 @@ class Home extends Component {
                   alignSelf: "center",
                   marginBottom: 20
                 }}
+                placeholder="Enter your nickname"
+                onChangeText={text => this.setState({ nickname: text })}
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  width: Dimensions.get("window").width - 20,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  alignSelf: "center",
+                  marginBottom: 20
+                }}
                 placeholder="Enter room name"
                 onChangeText={text => this.setState({ roomName: text })}
               />
@@ -64,7 +80,8 @@ class Home extends Component {
                   !this.state.roomName ? styles.circleDisabled : styles.circle
                 }
                 onPress={() => {
-                  this.props.joinRoom(this.state.roomName);
+                  this.props.joinRoom(this.state.roomName, this.state.nickname);
+                  this.props.setNickname(this.state.nickname);
                   this.props.navigation.replace("Question1Screen");
                 }}
               >
@@ -89,7 +106,8 @@ class Home extends Component {
                     : styles.joinCircle
                 }
                 onPress={() => {
-                  this.props.joinRoom(this.state.roomName);
+                  this.props.joinRoom(this.state.roomName, this.state.nickname);
+                  this.props.setNickname(this.state.nickname);
                   this.props.navigation.replace("Question1Screen");
                 }}
               >
@@ -161,8 +179,10 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    createRoom: roomName => dispatch(createRoom(roomName)),
-    joinRoom: roomName => dispatch(joinRoom(roomName))
+    createRoom: (roomName, nickname) =>
+      dispatch(createRoom(roomName, nickname)),
+    joinRoom: (roomName, nickname) => dispatch(joinRoom(roomName, nickname)),
+    setNickname: nickname => dispatch(setNickname(nickname))
   };
 };
 
