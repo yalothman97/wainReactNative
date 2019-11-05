@@ -32,15 +32,11 @@ export class Waiting extends Component {
     this.props.socket.socket.on("participantsChanged", data => {
       this.setState({ participants: data.participants });
     });
-    this.props.socket.socket.on("give_result", () => {
+    this.props.socket.socket.on("moveToResult", () => {
       if (!this.props.socket.admin)
         this.props.navigation.replace("FinalScreen");
     });
 
-    // this.props.socket.socket.on("start_swipping", () => {
-    //   if (!this.props.socket.admin)
-    //     this.props.navigation.replace("TinderScreen");
-    // });
     const checkingIfDone = this.state.participants.filter(
       par => par.tinderSubmitted == false
     );
