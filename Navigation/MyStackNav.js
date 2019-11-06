@@ -6,8 +6,10 @@ import Waiting from "../Components/Waiting";
 import TinderPage from "../Components/TinderPage";
 import TinderWaiting from "../Components/TinderWaiting";
 import FinalRecommendation from "../Components/FinalRecommendation";
+import Test from "../Components/Test";
 const MyStackNav = createStackNavigator(
   {
+    Test: Test,
     HomeScreen: Home,
     Question1Screen: Question1,
     WaitingScreen: Waiting,

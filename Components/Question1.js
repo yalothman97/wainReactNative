@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Spinner } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { StyleSheet, FlatList, TextInput, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  TextInput,
+  Dimensions,
+  View,
+  ScrollView
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { setAdmin } from "../redux/actions";
+import { Input } from "react-native-elements";
+
+import { TagSelect } from "react-native-tag-select";
 
 class Question extends Component {
   static navigationOptions = props => {
@@ -14,6 +24,7 @@ class Question extends Component {
     console.log(tags);
     if (tags)
       return {
+        header: null,
         headerRight: !tags.length ? null : (
           <Button
             style={{
@@ -130,13 +141,16 @@ class Question extends Component {
               // vertical
               alignItems: "center",
               // horizontal
-              alignSelf: "center"
+              alignSelf: "center",
+              marginTop: 40
             }}
           >
             <Text
               style={{
                 fontWeight: "800",
-                color: "#BC0000"
+                color: "#91312d",
+                fontSize: 20,
+                fontFamily: "serif"
               }}
             >
               Choose what you like
@@ -151,12 +165,10 @@ class Question extends Component {
               alignSelf: "center"
             }}
           >
-            <TextInput
-              style={{
+            <Input
+              containerStyle={{
                 height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                borderRadius: 10,
+
                 width: Dimensions.get("window").width - 20,
                 paddingLeft: 10,
                 paddingRight: 10
@@ -165,29 +177,69 @@ class Question extends Component {
               onChangeText={this.handleQuery}
             />
           </Row>
+          {/* data={this.state.tags.filter(tag =>
+                  tag.name.includes(this.state.query)
+                )} */}
           <Row size={88}>
             {this.state.tags && (
-              <FlatList
-                data={this.state.tags.filter(tag =>
-                  tag.name.includes(this.state.query)
-                )}
-                renderItem={({ item }) => (
-                  <Item name={item.name} id={item.id} />
-                )}
-                keyExtractor={item => item.id}
-                numColumns={4}
+              <ScrollView
                 contentContainerStyle={{
-                  flexGrow: 1,
-                  justifyContent: "center"
-                }}
-                style={{
+                  marginLeft: 20,
+                  marginRight: 20,
                   marginTop: 15,
-                  marginRight: 15,
-                  marginLeft: 15,
-                  alignContent: "stretch"
+                  marginBottom: 50,
+                  height: Dimensions.get("window").height
                 }}
-              />
+              >
+                <TagSelect
+                  theme="danger"
+                  ref={tag => {
+                    this.tags = tag;
+                  }}
+                  data={this.state.tags.filter(tag =>
+                    tag.label.includes(this.state.query)
+                  )}
+                  itemStyle={styles.customItem}
+                  itemStyleSelected={styles.customItemSelected}
+                  itemLabelStyle={styles.customItemLabel}
+                  itemLabelStyleSelected={styles.customItemLabelSelected}
+                />
+              </ScrollView>
             )}
+          </Row>
+          <Row
+            size={8}
+            style={{
+              alignSelf: "center"
+            }}
+          >
+            <View style={{ alignSelf: "center" }}>
+              <Button
+                style={{
+                  alignSelf: "center",
+
+                  justifyContent: "center",
+                  backgroundColor: "#91312d",
+                  borderRadius: 20,
+                  marginBottom: 5,
+                  width: Dimensions.get("window").width * 0.9
+                }}
+                onPress={() => {
+                  console.log(this.tags.itemsSelected);
+                  const tagsToSend = this.tags.itemsSelected.map(tag => tag.id);
+                  this.props.socket.socket.emit("quiz_submit", {
+                    id: this.props.socket.roomName,
+                    name: this.props.socket.nickname,
+                    tags: tagsToSend,
+                    budgets: 4
+                  });
+
+                  this.props.navigation.replace("WaitingScreen");
+                }}
+              >
+                <Text style={{ textAlign: "center" }}>Submit</Text>
+              </Button>
+            </View>
           </Row>
         </Grid>
       </Container>
@@ -204,7 +256,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 80 / 2,
-    backgroundColor: "#c92020",
+    backgroundColor: "#f13939",
     alignSelf: "center",
     justifyContent: "center",
     marginBottom: 30
@@ -227,6 +279,22 @@ const styles = StyleSheet.create({
     shadowRadius: 5.46,
 
     elevation: 9
+  },
+  customItem: {
+    borderColor: "#91312d",
+    borderWidth: 1
+  },
+  customItemSelected: {
+    backgroundColor: "#91312d",
+    borderColor: "#91312d",
+    borderWidth: 2
+  },
+  customItemLabel: {
+    color: "#91312d",
+    fontSize: 16
+  },
+  customItemLabelSelected: {
+    color: "white"
   }
 });
 
