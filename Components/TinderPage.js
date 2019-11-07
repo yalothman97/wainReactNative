@@ -16,6 +16,9 @@ export class TinderPage extends Component {
   };
   render() {
     let rests;
+    this.props.socket.socket.on("moveToResult", () => {
+      this.props.navigation.replace("FinalScreen");
+    });
     this.props.socket.socket.on("filtered_rest", data => {
       //   console.log(data);
       this.setState({ restaurants: data.filterList });
