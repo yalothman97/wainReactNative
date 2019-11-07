@@ -49,6 +49,11 @@ export class Waiting extends Component {
     });
     if (checkingIfDone.length > 0 && this.state.showContinueButton)
       this.setState({ showContinueButton: false });
+
+    this.props.socket.socket.on("moveToResult", () => {
+      this.props.navigation.replace("FinalScreen");
+    });
+
     this.props.socket.socket.on("start_swipping", () => {
       if (!this.props.socket.admin)
         this.props.navigation.replace("TinderScreen");
