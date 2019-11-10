@@ -40,12 +40,20 @@ export class FinalRecommendation extends Component {
               height: Dimensions.get("window").height * 0.53,
               marginTop: 50,
               marginRight: 10,
-              marginLeft: 10
+              marginLeft: 10,
+              borderRadius: 20
             }}
             resizeMode="contain"
             source={{ uri: this.state.restaurant.image }}
           ></Image>
-          <Text style={{ fontSize: 40, alignSelf: "center", marginTop: 20 }}>
+          <Text
+            style={{
+              fontSize: 40,
+              alignSelf: "center",
+              marginTop: 20,
+              marginLeft: 20
+            }}
+          >
             {this.state.restaurant.name}{" "}
           </Text>
         </View>
