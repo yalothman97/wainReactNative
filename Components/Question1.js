@@ -149,8 +149,7 @@ class Question extends Component {
               style={{
                 fontWeight: "800",
                 color: "#91312d",
-                fontSize: 20,
-                fontFamily: "serif"
+                fontSize: 20
               }}
             >
               Choose what you like
