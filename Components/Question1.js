@@ -148,7 +148,7 @@ class Question extends Component {
             <Text
               style={{
                 fontWeight: "800",
-                color: "#91312d",
+                color: "#BC0000",
                 fontSize: 20
               }}
             >
@@ -218,7 +218,7 @@ class Question extends Component {
                   alignSelf: "center",
 
                   justifyContent: "center",
-                  backgroundColor: "#91312d",
+                  backgroundColor: "#BC0000",
                   borderRadius: 20,
                   marginBottom: 5,
                   width: Dimensions.get("window").width * 0.9
@@ -280,16 +280,16 @@ const styles = StyleSheet.create({
     elevation: 9
   },
   customItem: {
-    borderColor: "#91312d",
+    borderColor: "#BC0000",
     borderWidth: 1
   },
   customItemSelected: {
-    backgroundColor: "#91312d",
-    borderColor: "#91312d",
+    backgroundColor: "#BC0000",
+    borderColor: "#BC0000",
     borderWidth: 2
   },
   customItemLabel: {
-    color: "#91312d",
+    color: "#BC0000",
     fontSize: 16
   },
   customItemLabelSelected: {

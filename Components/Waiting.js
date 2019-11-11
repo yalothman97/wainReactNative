@@ -78,7 +78,7 @@ export class Waiting extends Component {
                         <Icon
                           name="face"
                           type="material"
-                          color="#517fa4"
+                          color="#BC0000"
                           size={35}
                         />
                       </View>
@@ -111,13 +111,13 @@ export class Waiting extends Component {
                     <Icon
                       name="done"
                       type="material"
-                      color="#517fa4"
+                      color="#BC0000"
                       size={35}
                     />
                   </View>
                 ) : (
                   <Spinner
-                    color="red"
+                    color="#BC0000"
                     style={{
                       width: "30%",
                       height: "30%",
@@ -142,10 +142,12 @@ export class Waiting extends Component {
                   fontSize: 40,
                   alignItems: "center",
                   // horizontal
-                  alignSelf: "center"
+                  alignSelf: "center",
+                  color: "#BC0000"
                 }}
               >
-                {this.props.socket.roomName}
+                {/* {this.props.socket.roomName} */}
+                Please Wait..
               </Text>
             </Col>
           </Row>
@@ -172,7 +174,9 @@ export class Waiting extends Component {
           <Row size={110}>
             <Col>
               <FlatList
-                data={this.state.participants}
+                data={this.state.participants.filter(
+                  par => par.name != "Observer"
+                )}
                 renderItem={({ item }) => (
                   <Item name={item.name} finished={item.finished} />
                 )}
@@ -194,7 +198,8 @@ export class Waiting extends Component {
               width: 80,
               height: 80,
               borderRadius: 40,
-              justifyContent: "center"
+              justifyContent: "center",
+              backgroundColor: "#BC0000"
             }}
             onPress={() => {
               this.props.socket.socket.emit("end", {
