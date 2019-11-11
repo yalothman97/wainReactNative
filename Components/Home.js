@@ -31,17 +31,16 @@ class Home extends Component {
           alignItems: "center",
           // horizontal
           alignSelf: "center",
-          backgroundColor: "#91312d",
+          backgroundColor: "#ffffff",
           width: Dimensions.get("window").width
         }}
       >
         <Text
           style={{
             fontWeight: "800",
-            color: "white",
+            color: "#BC0000",
             marginTop: 100,
-            fontSize: 25,
-            fontFamily: "serif"
+            fontSize: 25
           }}
         >
           Not sure where to eat?
@@ -64,7 +63,7 @@ class Home extends Component {
                 marginBottom: 50,
                 marginTop: 50
               }}
-              inputStyle={{ color: "white", fontFamily: "serif" }}
+              inputStyle={{ color: "#BC0000" }}
               placeholder="Enter your nickname"
               onChangeText={text => this.setState({ nickname: text })}
             />
@@ -78,7 +77,7 @@ class Home extends Component {
                 alignSelf: "center",
                 marginBottom: 20
               }}
-              inputStyle={{ color: "white", fontFamily: "serif" }}
+              inputStyle={{ color: "#BC0000" }}
               placeholder="Enter room name"
               onChangeText={text => this.setState({ roomName: text })}
             />
@@ -135,24 +134,20 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   circle: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     borderRadius: 250 / 2,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "#BC0000",
     alignSelf: "center",
     justifyContent: "center",
     marginBottom: 20,
-    marginTop: 50,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2
+    marginTop: 50
   },
   circleDisabled: {
     width: 200,
     height: 200,
     borderRadius: 200 / 2,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "#BC0000",
     alignSelf: "center",
     justifyContent: "center",
     marginBottom: 20,
