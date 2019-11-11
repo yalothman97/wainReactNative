@@ -2,7 +2,7 @@ import socketIOClient from "socket.io-client";
 import { CREATE_ROOM, JOIN_ROOM, SET_ADMIN, SET_NICKNAME } from "./actionTypes";
 
 export const createRoom = (roomName, nickname) => {
-  const socket = socketIOClient("https://192.168.100.232");
+  const socket = socketIOClient("https://wain-nodejs.herokuapp.com/");
   socket.emit("start", {
     id: roomName,
     name: nickname
@@ -16,7 +16,7 @@ export const createRoom = (roomName, nickname) => {
 };
 
 export const joinRoom = (roomName, nickname) => {
-  const socket = socketIOClient("http://192.168.100.232");
+  const socket = socketIOClient("https://wain-nodejs.herokuapp.com/");
   socket.emit("join", {
     id: roomName,
     name: nickname
