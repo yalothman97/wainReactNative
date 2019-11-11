@@ -163,7 +163,9 @@ export class Waiting extends Component {
           <Row size={110}>
             <Col>
               <FlatList
-                data={this.state.participants}
+                data={this.state.participants.filter(
+                  par => par.name != "Observer"
+                )}
                 renderItem={({ item }) => (
                   <Item name={item.name} finished={item.tinderSubmitted} />
                 )}
