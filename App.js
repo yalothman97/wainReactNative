@@ -4,31 +4,42 @@ import AppContainer from "./Navigation/index";
 import { Provider } from "react-redux";
 import store from "./redux";
 import { fetchRestaurants, fetchTags } from "./redux/actions";
-import Expo from "expo";
+import * as Font from "expo-font";
+import { Platform } from "react-native";
+
 store.dispatch(fetchRestaurants());
 store.dispatch(fetchTags());
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     loading: true
   };
-  async componentDidMount() {
-    // await Expo.Font.loadAsync({
-    //   Roboto: require("native-base/Fonts/Roboto.ttf"),
-    //   Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
-    // });
-    this.setState({ loading: false });
-  }
+  componentDidMount = async () => {
+    if (Platform.OS === "android") {
+      await Font.loadAsync({
+        Roboto: require("native-base/Fonts/Roboto.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+      });
+      this.setState({ loading: false });
+    }
+  };
+
   render() {
-    if (!this.state.loading)
+    if (!this.state.loading && Platform.OS === "android") {
       return (
         <Provider store={store}>
           <AppContainer />
         </Provider>
       );
-    else return <Text> </Text>;
+    } else
+      return (
+        <Provider store={store}>
+          <AppContainer />
+        </Provider>
+      );
   }
 }
+export default App;
 
 const styles = StyleSheet.create({
   container: {

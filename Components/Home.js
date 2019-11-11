@@ -19,8 +19,6 @@ class Home extends Component {
   };
   render() {
     if (!this.props.loading && !this.props.tagsLoading) {
-      // console.log("restaurants", this.props.restaurants);
-      // console.log("tags", this.props.tags);
     }
 
     return (
@@ -77,6 +75,7 @@ class Home extends Component {
                 alignSelf: "center",
                 marginBottom: 20
               }}
+              autoCapitalize="characters"
               inputStyle={{ color: "#BC0000" }}
               placeholder="Enter room name"
               onChangeText={text => this.setState({ roomName: text })}

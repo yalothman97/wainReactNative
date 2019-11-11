@@ -1,19 +1,5 @@
 import socketIOClient from "socket.io-client";
-import { CREATE_ROOM, JOIN_ROOM, SET_ADMIN, SET_NICKNAME } from "./actionTypes";
-
-export const createRoom = (roomName, nickname) => {
-  const socket = socketIOClient("https://wain-nodejs.herokuapp.com/");
-  socket.emit("start", {
-    id: roomName,
-    name: nickname
-  });
-
-  return {
-    type: CREATE_ROOM,
-    payload: socket,
-    roomName: roomName
-  };
-};
+import { CREATE_ROOM, SET_ADMIN, SET_NICKNAME } from "./actionTypes";
 
 export const joinRoom = (roomName, nickname) => {
   const socket = socketIOClient("https://wain-nodejs.herokuapp.com/");
