@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Modal from "react-native-modal";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import {
   Container,
@@ -18,11 +16,12 @@ import {
 import { Icon } from "react-native-elements";
 
 export class Waiting extends Component {
-  static navigationOptions = props => {
+  static navigationOptions = () => {
     return {
       header: null
     };
   };
+
   state = {
     participants: [],
     submitted: 0,
@@ -33,6 +32,7 @@ export class Waiting extends Component {
     const checkingIfDone = this.state.participants.filter(
       par => par.finished == false
     );
+
     if (
       checkingIfDone.length == 0 &&
       this.state.showContinueButton == false &&
@@ -41,12 +41,15 @@ export class Waiting extends Component {
     ) {
       this.setState({ showContinueButton: true });
     }
+
     this.props.socket.socket.on("participantsSubmitted", data => {
       this.setState({ submitted: data.participants });
     });
+
     this.props.socket.socket.on("participantsChanged", data => {
       this.setState({ participants: data.participants });
     });
+
     if (checkingIfDone.length > 0 && this.state.showContinueButton)
       this.setState({ showContinueButton: false });
 
@@ -141,12 +144,10 @@ export class Waiting extends Component {
                 style={{
                   fontSize: 40,
                   alignItems: "center",
-                  // horizontal
                   alignSelf: "center",
                   color: "#BC0000"
                 }}
               >
-                {/* {this.props.socket.roomName} */}
                 Please Wait..
               </Text>
             </Col>
@@ -157,7 +158,6 @@ export class Waiting extends Component {
                 style={{
                   fontSize: 16,
                   alignItems: "center",
-                  // horizontal
                   alignSelf: "center"
                 }}
               >
@@ -165,12 +165,6 @@ export class Waiting extends Component {
               </Text>
             </Col>
           </Row>
-          {/* <Text>
-          Number of participants in the room: {this.state.participants}
-        </Text>
-        <Text>
-          Number of participants who submitted: {this.state.submitted}
-        </Text> */}
           <Row size={110}>
             <Col>
               <FlatList
@@ -232,28 +226,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Waiting);
-
-/*
-
-
-   <AnimatedCircularProgress
-                size={240}
-                width={15}
-                fill={(this.state.submitted / this.state.participants) * 100}
-                tintColor="#d92121"
-                onAnimationComplete={() => console.log("onAnimationComplete")}
-                backgroundColor="#661111"
-                style={{
-                  // vertical
-                  alignItems: "center",
-                  // horizontal
-                  alignSelf: "center"
-                }}
-              >
-                {fill => (
-                  <Text
-                    style={{ fontSize: 40 }}
-                  >{`${this.state.submitted}/${this.state.participants}`}</Text>
-                )}
-              </AnimatedCircularProgress>
-*/

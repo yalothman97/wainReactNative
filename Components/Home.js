@@ -1,33 +1,27 @@
-//#f13939
 import React, { Component } from "react";
 import { Container, Content, Text, Toast, Root, View } from "native-base";
-import { Col, Row, Grid } from "react-native-easy-grid";
 import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
-import { TextInput } from "react-native-gesture-handler";
 import { createRoom, joinRoom, setNickname } from "../redux/actions";
 import { Input } from "react-native-elements";
+
 class Home extends Component {
-  static navigationOptions = props => {
+  static navigationOptions = () => {
     return {
       header: null
     };
   };
+
   state = {
     roomName: null,
     nickname: ""
   };
-  render() {
-    if (!this.props.loading && !this.props.tagsLoading) {
-    }
 
+  render() {
     return (
       <Container
         style={{
-          // vertical
-          //veru nic #c92c2c
           alignItems: "center",
-          // horizontal
           alignSelf: "center",
           backgroundColor: "#ffffff",
           width: Dimensions.get("window").width
@@ -114,7 +108,6 @@ class Home extends Component {
                   style={{
                     textAlign: "center",
                     flexDirection: "column",
-
                     fontWeight: "800",
                     color: "white",
                     fontSize: 50
@@ -173,12 +166,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  restaurants: state.restaurantsReducer.restaurants,
-  loading: state.restaurantsReducer.loading,
   tagsLoading: state.tagsReducer.loading,
   tags: state.tagsReducer.tags,
   socket: state.socket
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     createRoom: (roomName, nickname) =>

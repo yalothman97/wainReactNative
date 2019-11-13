@@ -1,9 +1,4 @@
-import {
-  CREATE_ROOM,
-  JOIN_ROOM,
-  SET_ADMIN,
-  SET_NICKNAME
-} from "../actions/actionTypes";
+import { CREATE_ROOM, SET_ADMIN, SET_NICKNAME } from "../actions/actionTypes";
 
 const initialState = {
   socket: null,

@@ -8,26 +8,23 @@ import {
 } from "react-native";
 import {
   Container,
-  Header,
   DeckSwiper,
   Card,
   CardItem,
-  Thumbnail,
   Text,
-  Left,
-  Body,
-  Icon,
   Button
 } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
+
 class TinderCards extends Component {
   state = {
     liked: [],
     disliked: [],
     showInstructions: true
   };
+
   render() {
     const cards = this.props.restaurants;
     if (cards.length == this.state.liked.length + this.state.disliked.length) {
@@ -48,45 +45,17 @@ class TinderCards extends Component {
               let newDisliked = this.state.disliked;
               newDisliked.push(e.id);
               this.setState({ disliked: newDisliked, showInstructions: false });
-              console.log(this.state.disliked);
             }}
             onSwipeRight={e => {
               let newLiked = this.state.liked;
               newLiked.push(e.id);
               this.setState({ liked: newLiked, showInstructions: false });
-              console.log(this.state.liked);
             }}
             looping={false}
             dataSource={cards}
             renderItem={item => (
               <Card style={{ elevation: 3, borderRadius: 20 }}>
-                {/* <CardItem>
-                  <Left>
-                    <Thumbnail
-                      source={{ uri: item.image }}
-                      resizeMode="contain"
-                    />
-                    <Body>
-                      <Text>{item.name}</Text>
-                    
-                    </Body>
-                  </Left>
-                </CardItem> */}
                 <CardItem cardBody style={{ borderRadius: 20 }}>
-                  {/* <Image
-                    style={{ height: 600, flex: 1 }}
-                    resizeMode="contain"
-                    source={{ uri: item.image }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: "rgba(0,0,0,.6)",
-                        height: 600
-                      }}
-                    >
-                      <Text> Test Text </Text>
-                    </View>
-                  </Image> */}
                   <ImageBackground
                     style={{
                       height: Dimensions.get("window").height * 0.72,
@@ -172,14 +141,7 @@ class TinderCards extends Component {
                         </Button>
                       </>
                     ) : null}
-                    {/* <View
-                      style={{
-                        height: 600,
-                        backgroundColor: "black",
-                        opacity: 0.35,
-                        borderRadius: 20
-                      }}
-                    ></View> */}
+
                     <Text
                       style={{
                         position: "absolute",
@@ -222,11 +184,9 @@ const mapStateToProps = state => ({
   socket: state.socket
 });
 
-const mapDispatchToProps = {};
-
 export default withNavigation(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   )(TinderCards)
 );
