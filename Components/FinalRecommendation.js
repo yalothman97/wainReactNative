@@ -37,7 +37,6 @@ export class FinalRecommendation extends Component {
         return { id: tag, label: this.props.tags.find(t => t.id == tag).label };
       });
 
-      console.log(tags);
       return (
         <View style={{ marginTop: 50 }}>
           <Text
@@ -123,9 +122,7 @@ const mapStateToProps = state => ({
   tags: state.tagsReducer.tags
 });
 
-const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(FinalRecommendation);

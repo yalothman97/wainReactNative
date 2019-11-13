@@ -1,60 +1,20 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Spinner } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {
-  StyleSheet,
-  FlatList,
-  TextInput,
-  Dimensions,
-  View,
-  ScrollView
-} from "react-native";
+import { StyleSheet, Dimensions, View, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { setAdmin } from "../redux/actions";
 import { Input } from "react-native-elements";
-
 import { TagSelect } from "react-native-tag-select";
 
 class Question extends Component {
-  static navigationOptions = props => {
-    let tags = props.navigation.getParam("tags");
-    let socket = props.navigation.getParam("socket");
-    let name = props.navigation.getParam("name");
-    console.log(tags);
-    if (tags)
-      return {
-        header: null,
-        headerRight: !tags.length ? null : (
-          <Button
-            style={{
-              marginRight: 10
-            }}
-            onPress={() => {
-              {
-                socket.socket.emit("quiz_submit", {
-                  id: socket.roomName,
-                  name: name,
-                  tags: tags,
-                  budgets: 4
-                });
-
-                props.navigation.replace("WaitingScreen");
-              }
-            }}
-            transparent
-          >
-            <Text style={{ color: "#c92020" }}>Done</Text>
-          </Button>
-        )
-      };
-    else return null;
+  static navigationOptions = () => {
+    return {
+      header: null
+    };
   };
-  constructor(props) {
-    super(props);
 
-    // socket.emit("channel1", "Hi server"); // emits 'hi server' to your server
-  }
   state = {
     tags: [],
     selectedTags: [],
@@ -63,8 +23,6 @@ class Question extends Component {
   };
 
   componentDidMount = () => {
-    // this.join();
-
     this.props.navigation.setParams({
       socket: this.props.socket,
       name: this.props.socket.nickname,
@@ -73,24 +31,25 @@ class Question extends Component {
   };
 
   submitAnswer() {
-    // console.log(this.refs.cats.value, this.refs.flavs.value);
     this.props.socket.socket.emit("quiz_submit", {
       tags: this.state.selectedTags,
-
       budget: 4
     });
   }
+
   handleQuery = e => {
     this.setState({ query: e });
   };
+
   render() {
     this.props.socket.socket.on("admin", data => {
-      console.log("I'm the admin");
       this.props.setAdmin();
     });
+
     this.props.socket.socket.on("quiz", data => {
       !this.state.tags.length && this.setState({ tags: data.tags });
     });
+
     if (!this.state.tags.length)
       return (
         <Spinner
@@ -104,43 +63,14 @@ class Question extends Component {
           }}
         />
       );
-    const Item = ({ name, id }) => {
-      return (
-        <Col
-          onPress={() => {
-            let newArray = this.state.selectedTags;
-            if (newArray.includes(id)) {
-              newArray = newArray.filter(x => x !== id);
-            } else newArray.push(id);
 
-            console.log("from button", newArray);
-            this.props.navigation.setParams({
-              tags: newArray
-            });
-            this.setState({ selectedTags: newArray, [id]: !this.state[id] });
-          }}
-        >
-          <TouchableOpacity
-            style={
-              !this.state[id] || this.state[id] === false
-                ? styles.preferenceItem
-                : styles.preferenceItemClicked
-            }
-          >
-            <Text style={styles.title}>{name}</Text>
-          </TouchableOpacity>
-        </Col>
-      );
-    };
     return (
       <Container>
         <Grid>
           <Row
             size={5}
             style={{
-              // vertical
               alignItems: "center",
-              // horizontal
               alignSelf: "center",
               marginTop: 40
             }}
@@ -158,9 +88,7 @@ class Question extends Component {
           <Row
             size={7}
             style={{
-              // vertical
               alignItems: "center",
-              // horizontal
               alignSelf: "center"
             }}
           >
@@ -176,9 +104,6 @@ class Question extends Component {
               onChangeText={this.handleQuery}
             />
           </Row>
-          {/* data={this.state.tags.filter(tag =>
-                  tag.name.includes(this.state.query)
-                )} */}
           <Row size={88}>
             {this.state.tags && (
               <ScrollView
@@ -224,7 +149,6 @@ class Question extends Component {
                   width: Dimensions.get("window").width * 0.9
                 }}
                 onPress={() => {
-                  console.log(this.tags.itemsSelected);
                   const tagsToSend = this.tags.itemsSelected.map(tag => tag.id);
                   this.props.socket.socket.emit("quiz_submit", {
                     id: this.props.socket.roomName,
@@ -232,7 +156,6 @@ class Question extends Component {
                     tags: tagsToSend,
                     budgets: 4
                   });
-
                   this.props.navigation.replace("WaitingScreen");
                 }}
               >
@@ -268,7 +191,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     marginBottom: 30,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -276,7 +198,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.32,
     shadowRadius: 5.46,
-
     elevation: 9
   },
   customItem: {
@@ -300,11 +221,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   socket: state.socket
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     setAdmin: () => dispatch(setAdmin())
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

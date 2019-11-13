@@ -6,7 +6,6 @@ export const fetchTags = () => {
     try {
       let res = await instance.get("tags/");
       let tags = res.data;
-      console.log("fetched tags", tags);
       dispatch({
         type: FETCH_TAGS,
         payload: tags

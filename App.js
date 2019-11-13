@@ -1,19 +1,18 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
 import AppContainer from "./Navigation/index";
 import { Provider } from "react-redux";
 import store from "./redux";
-import { fetchRestaurants, fetchTags } from "./redux/actions";
+import { fetchTags } from "./redux/actions";
 import * as Font from "expo-font";
 import { Platform } from "react-native";
 
-store.dispatch(fetchRestaurants());
 store.dispatch(fetchTags());
 
 class App extends React.Component {
   state = {
     loading: true
   };
+
   componentDidMount = async () => {
     if (Platform.OS === "android") {
       await Font.loadAsync({
@@ -40,12 +39,3 @@ class App extends React.Component {
   }
 }
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
